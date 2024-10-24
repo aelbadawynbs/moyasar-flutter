@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:moyasar/moyasar.dart';
+import 'package:moyasar/src/models/payment_config.dart';
 
 void main() {
   test('should create a valid payment config with only required fields.', () {
@@ -13,7 +14,7 @@ void main() {
     expect(paymentConfig.metadata, null);
     expect(paymentConfig.supportedNetworks,
         ["amex", "visa", "mada", "masterCard"]);
-    expect(PaymentConfig.callbackUrl, "https://example.com/thanks");
+    expect(defaultCallbackUrl, "https://example.com/thanks");
   });
 
   test('should create a valid payment config with all fields.', () {
@@ -39,7 +40,7 @@ void main() {
     expect(paymentConfig.description, "Coffee!");
     expect(paymentConfig.metadata, meta);
     expect(paymentConfig.supportedNetworks, ["mada"]);
-    expect(PaymentConfig.callbackUrl, "https://example.com/thanks");
+    expect(defaultCallbackUrl, "https://example.com/thanks");
 
     expect(paymentConfig.creditCard!.saveCard, false);
     expect(paymentConfig.creditCard!.manual, false);

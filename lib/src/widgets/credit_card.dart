@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:moyasar/moyasar.dart';
@@ -5,6 +6,7 @@ import 'package:moyasar/src/utils/card_utils.dart';
 import 'package:moyasar/src/utils/input_formatters.dart';
 import 'package:moyasar/src/widgets/network_icons.dart';
 import 'package:moyasar/src/widgets/three_d_s_webview.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// The widget that shows the Credit Card form and manages the 3DS step.
 class CreditCard extends StatefulWidget {
@@ -80,31 +82,42 @@ class _CreditCardState extends State<CreditCard> {
       return;
     }
 
+    ///use launchUrl for web platform and use set callback url
+    ///with your domain to catch params with routing
+    Future<void> _launchUrl(String url) async {
+      if (!await launchUrl(Uri.parse(url), webOnlyWindowName: '_blank')) {
+        throw Exception('Could not launch $url');
+      }
+    }
+
     final String transactionUrl =
         (result.source as CardPaymentResponseSource).transactionUrl;
 
     if (mounted) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            fullscreenDialog: true,
-            maintainState: false,
-            builder: (context) => ThreeDSWebView(
-                transactionUrl: transactionUrl,
-                on3dsDone: (String status, String message) async {
-                  if (status == PaymentStatus.paid.name) {
-                    result.status = PaymentStatus.paid;
-                  } else if (status == PaymentStatus.authorized.name) {
-                    result.status = PaymentStatus.authorized;
-                  } else {
-                    result.status = PaymentStatus.failed;
-                    (result.source as CardPaymentResponseSource).message =
-                        message;
-                  }
-                  Navigator.pop(context);
-                  widget.onPaymentResult(result);
-                })),
-      );
+      if (kIsWeb) {
+        _launchUrl(transactionUrl);
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              fullscreenDialog: true,
+              maintainState: false,
+              builder: (context) => ThreeDSWebView(
+                  transactionUrl: transactionUrl,
+                  on3dsDone: (String status, String message) async {
+                    if (status == PaymentStatus.paid.name) {
+                      result.status = PaymentStatus.paid;
+                    } else if (status == PaymentStatus.authorized.name) {
+                      result.status = PaymentStatus.authorized;
+                    } else {
+                      result.status = PaymentStatus.failed;
+                      (result.source as CardPaymentResponseSource).message = message;
+                    }
+                    Navigator.pop(context);
+                    widget.onPaymentResult(result);
+                  })),
+        );
+      }
     }
   }
 

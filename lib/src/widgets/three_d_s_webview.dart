@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:moyasar/moyasar.dart';
+import 'package:moyasar/src/models/payment_config.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 /// The widget that shows the 3DS step.
 class ThreeDSWebView extends StatefulWidget {
   final String transactionUrl;
   final Function on3dsDone;
-  final Uri callbackUri = Uri.parse(PaymentConfig.callbackUrl);
+  final Uri callbackUri = Uri.parse(defaultCallbackUrl);
 
   ThreeDSWebView(
       {super.key, required this.transactionUrl, required this.on3dsDone});

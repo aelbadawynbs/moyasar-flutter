@@ -1,10 +1,14 @@
 import 'package:moyasar/src/models/apple_pay_config.dart';
 import 'package:moyasar/src/models/credit_card_config.dart';
 
+/// defaultCallbackUrl
+const defaultCallbackUrl = "https://example.com/thanks";
 /// Used by Moyasar API along with any of the supported sources.
 class PaymentConfig {
   /// Used internally to manage the 3DS step.
-  static String callbackUrl = "https://example.com/thanks";
+  /// set your domain when use web platform to can catch params with routing
+  /// example "http://localhost:61836/successful"
+  final String callbackUrl;
 
   /// You can find your [publishableApiKey] in your Moyasar Dashboard.
   /// Go to https://docs.moyasar.com/get-your-api-keys for more details.
@@ -45,6 +49,7 @@ class PaymentConfig {
       this.metadata,
       this.supportedNetworks = const ["amex", "visa", "mada", "masterCard"],
       this.applePay,
+      this.callbackUrl = defaultCallbackUrl,
       this.creditCard})
       : assert(publishableApiKey.isNotEmpty,
             'Please fill `publishableApiKey` argument with your key.'),
