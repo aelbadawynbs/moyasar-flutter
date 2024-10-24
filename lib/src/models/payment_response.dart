@@ -83,7 +83,7 @@ class PaymentResponse {
         'created_at': createdAt,
         'updated_at': updatedAt,
         'metadata': metadata,
-        'source': source?.toJson()
+        'source': (source as CardPaymentResponseSource?)?.toJson()
       };
 }
 
