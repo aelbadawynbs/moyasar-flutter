@@ -6,7 +6,6 @@ import 'package:moyasar/src/utils/card_utils.dart';
 import 'package:moyasar/src/utils/input_formatters.dart';
 import 'package:moyasar/src/widgets/network_icons.dart';
 import 'package:moyasar/src/widgets/three_d_s_webview.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /// The widget that shows the Credit Card form and manages the 3DS step.
 class CreditCard extends StatefulWidget {
@@ -82,20 +81,12 @@ class _CreditCardState extends State<CreditCard> {
       return;
     }
 
-    ///use launchUrl for web platform and use set callback url
-    ///with your domain to catch params with routing
-    Future<void> _launchUrl(String url) async {
-      if (!await launchUrl(Uri.parse(url), webOnlyWindowName: '_blank')) {
-        throw Exception('Could not launch $url');
-      }
-    }
-
     final String transactionUrl =
         (result.source as CardPaymentResponseSource).transactionUrl;
 
     if (mounted) {
       if (kIsWeb) {
-        _launchUrl(transactionUrl);
+        widget.onPaymentResult(result);
       } else {
         Navigator.push(
           context,
