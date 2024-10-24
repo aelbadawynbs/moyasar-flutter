@@ -61,30 +61,32 @@ class PaymentResponse {
     }
   }
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'status': status,
-        'amount': amount,
-        'fee': fee,
-        'currency': currency,
-        'refunded': refunded,
-        'refunded_at': refundedAt,
-        'captured': captured,
-        'captured_at': capturedAt,
-        'voided_at': voidedAt,
-        'description': description,
-        'amount_format': amountFormat,
-        'fee_format': feeFormat,
-        'refunded_format': refundedFormat,
-        'captured_format': capturedFormat,
-        'invoice_id': invoiceId,
-        'ip': ip,
-        'callback_url': callbackUrl,
-        'created_at': createdAt,
-        'updated_at': updatedAt,
-        'metadata': metadata,
-        'source': (source as CardPaymentResponseSource?)?.toJson()
-      };
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['id'] = id;
+    _data['status'] = status.name;
+    _data['amount'] = amount;
+    _data['fee'] = fee;
+    _data['currency'] = currency;
+    _data['refunded'] = refunded;
+    _data['refunded_at'] = refundedAt;
+    _data['captured'] = captured;
+    _data['captured_at'] = capturedAt;
+    _data['voided_at'] = voidedAt;
+    _data['description'] = description;
+    _data['amount_format'] = amountFormat;
+    _data['fee_format'] = feeFormat;
+    _data['refunded_format'] = refundedFormat;
+    _data['captured_format'] = capturedFormat;
+    _data['invoice_id'] = invoiceId;
+    _data['ip'] = ip;
+    _data['callback_url'] = callbackUrl;
+    _data['created_at'] = createdAt;
+    _data['updated_at'] = updatedAt;
+    _data['metadata'] = metadata;
+    _data['source'] = (source as CardPaymentResponseSource).toJson();
+    return _data;
+  }
 }
 
 enum PaymentStatus { initiated, paid, failed, authorized, captured }

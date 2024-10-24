@@ -44,8 +44,8 @@ class CardPaymentResponseSource implements PaymentResponseSource {
         transactionUrl = json['transaction_url'];
 
   Map<String, dynamic> toJson() => {
-        'type': type,
-        'company': company,
+        'type': type.name,
+        'company': company.name,
         'name': name,
         'number': number,
         'gateway_id': gatewayId,
