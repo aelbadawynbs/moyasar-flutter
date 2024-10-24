@@ -60,6 +60,31 @@ class PaymentResponse {
       source = json['source'];
     }
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'status': status,
+        'amount': amount,
+        'fee': fee,
+        'currency': currency,
+        'refunded': refunded,
+        'refunded_at': refundedAt,
+        'captured': captured,
+        'captured_at': capturedAt,
+        'voided_at': voidedAt,
+        'description': description,
+        'amount_format': amountFormat,
+        'fee_format': feeFormat,
+        'refunded_format': refundedFormat,
+        'captured_format': capturedFormat,
+        'invoice_id': invoiceId,
+        'ip': ip,
+        'callback_url': callbackUrl,
+        'created_at': createdAt,
+        'updated_at': updatedAt,
+        'metadata': metadata,
+        'source': source?.toJson()
+      };
 }
 
 enum PaymentStatus { initiated, paid, failed, authorized, captured }
